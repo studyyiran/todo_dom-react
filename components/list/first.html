@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="../../util/component.js"></script>
+    <script src="../../util/util.js"></script>
+    <script src="./input.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<script>
+    let Input2 = new Input()
+    Component.setRootRender(Input2.render(), document.querySelector('#root'))
+</script>
+</html>

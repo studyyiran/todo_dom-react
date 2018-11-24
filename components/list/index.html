@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../util/util.js"></script>
+    <script src="../../controller/controller.js"></script>
+</head>
+<body>
+    <textarea id="textarea"></textarea>
+    <button>保存</button>
+</body>
+<script>
+    let textareaElement = $$('textarea')
+    textareaElement.addEventListener('change', function (event) {
+        let value
+        if (event && event.target && event.target.value) {
+            value = event.target.value
+        }
+        let update = controller.add()
+        update(newValue)
+        render(function (node) {
+            node.value = value
+        })
+        controller.post(,value)
+        console.log()
+    })
+</script>
+</html>
+
