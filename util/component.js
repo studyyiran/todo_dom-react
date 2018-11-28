@@ -3,7 +3,6 @@
     }
     Component.prototype = {
         render: function (vnode, root) {
-            console.log('start')
             // root.innerHTML = ''
             let {type, props} = vnode
             let children = vnode.children || (props && props.children)
@@ -15,7 +14,6 @@
                 Object.keys(props).map(key => {
                     if (key === 'onChange') {
                         dom.onchange = function (event) {
-                            console.log(event)
                             props[key](event)
                         }
                     } else if (key !== 'children') {
@@ -40,20 +38,23 @@
             return root
         },
         setState: function (nextState) {
-            console.log('setState')
             let newState = Object.assign({}, this.state, nextState)
+            // 更新了自身的state之后。就仅仅需要父组件触发子组件的render方法了。
             this.state = newState
-            this.rootRender()
+            // 这块不对劲。应该触发的是本身的render方法。（这块对，其实是通过父组件触发的。）
+            // let vnodeNow = this.render()
+            // 然后。。。再。。。更新？或者说，再出发起源导火索？进行一次新的vnode渲染。
+            window.rootRender()
         },
         setRootRender: function(renderFunc, dom) {
-            this.rootRender = function () {
-                console.log('clear')
-                dom.innerHTML = ''
+            // this.rootRender = function () {
                 // 此处为了每次重新获得vnode，需要使用render方法
+            // }
+            window.rootRender = function() {
+                dom.innerHTML = ''
                 Component.prototype.render(renderFunc(), dom)
             }
-            console.log('set')
-            this.rootRender()
+            window.rootRender()
         }
     }
 })()

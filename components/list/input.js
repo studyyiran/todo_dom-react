@@ -38,7 +38,7 @@
             // TODO
             this.setState({
                 value: event.target.value
-            }, this)
+            })
         }
 
 

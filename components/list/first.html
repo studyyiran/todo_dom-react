@@ -14,16 +14,26 @@
     <div id="root3"></div>
 </body>
 <script>
-    console.log(util)
-    console.log(window.Component.prototype)
-    let Input1 = new (window.Components.Input)()
-    let Input2 = new (window.Components.Input)()
+    let Input1 = new (window.Components.Input)();
+    let Input2 = new (window.Components.Input)();
+    let haha = new Component()
+    function myFunc() {
+        return {
+            type: 'div',
+            props: {class: 'fatherOfAll'},
+            children: [
+                'success or fail? is not important.',
+                Input1.render(),
+                Input2.render(),
+            ]
+        }
+    }
     // 为什么不能搜索到prototype
-
     // 因为我们不能引用同一个。我们需要每个调用setRootRender都是不同的实例
-    Input1.setRootRender(() => {return Input1.render()}, document.querySelector('#root1'))
-    Input2.setRootRender(() => {return Input2.render()}, document.querySelector('#root2'))
-    // window.Component.prototype.setRootRender(() => {return Input1.render()}, document.querySelector('#root1'))
-    // window.Component.prototype.setRootRender(() => {return Input2.render()}, document.querySelector('#root2'))
+    // 其实这个调用没有问题，有问题的是，我需要想办法拆分出来不同的。这样让setState的时候触发正确的函数。
+    // Input1.setRootRender(() => {return Input1.render()}, document.querySelector('#root1'))
+    // Input2.setRootRender(() => {return Input2.render()}, document.querySelector('#root2'))
+    window.Component.prototype.setRootRender(() => {return myFunc()}, document.querySelector('#root1'))
+    // (new window.Component()).setRootRender(() => {return Input2.render()}, document.querySelector('#root2'))
 </script>
 </html>
