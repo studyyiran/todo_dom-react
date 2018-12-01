@@ -28,36 +28,30 @@
         /*
         pure view.get state to render with state
          */
-        this.vnodeInputOutDiv = function({children = ''}) {
+        this.renderItem = function({children = ''}) {
             return ({
                 type: 'div',
                 props: {
-                    class: 'my-input-div',
+                    class: 'list_input_container',
                 },
                 children: [
                     {
-                        type: 'p',
+                        type: 'div',
                         props: {
-                            class: 'left'
+                            class: 'list_input_container_finishIcon'
                         },
-                        children: 'circle'
+                        children: ''
                     },
                     {
                         type: 'div',
                         props: {
                             showDom: !this.state.edit,
-                            class: 'content',
+                            class: 'list_input_container_content',
                             onclick: this.clickContentHandler.bind(this)
                         },
                         children: this.state.value
                     },
-                    {
-                        type: 'div',
-                        props: {
-                            class: 'right'
-                        },
-                        children: children
-                    }
+                    this.vnodeInput()
                 ]
             })
         }
@@ -73,20 +67,35 @@
 
         this.vnodeInput = function() {
             return ({
-                type: 'input',
+                type: 'textarea',
                 props: {
                     showDom: this.state.edit,
-                    class: 'my-input',
+                    class: 'list_input_container_textarea',
                     onchange: this.inputHandler.bind(this),
-                    value: this.state.value
+                    children: this.state.value
                 }
             })
         }
 
         this.vnodeMix = function() {
-            return this.vnodeInputOutDiv(
-                {children: this.vnodeInput()}
-            )
+            return {
+                type: 'div',
+                props: {
+                    class: 'list_input_container'
+                },
+                children: [
+                    this.renderItem({}),
+                    {
+                        type: 'div',
+                        props: {
+                            onclick: () => {
+
+                            }
+                        },
+                        childnre: '+'
+                    }
+                ]
+            }
         }
 
         /*
