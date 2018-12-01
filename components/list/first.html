@@ -6,7 +6,13 @@
     <script src="../../util/component.js"></script>
     <script src="../../util/util.js"></script>
     <script src="./input.js"></script>
-
+    <style>
+        .my-input-div {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+    </style>
 </head>
 <body>
     <div id="root1"></div>
@@ -24,7 +30,6 @@
             children: [
                 'success or fail? is not important.',
                 Input1.render(),
-                Input2.render(),
             ]
         }
     }

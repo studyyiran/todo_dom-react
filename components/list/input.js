@@ -15,7 +15,7 @@
         v-m 开的是 setState 修改m。然后出发reRender
          */
         this.state = {
-            value: 'some thing i will understand'
+            value: 'content value'
         }
 
         /*
@@ -28,8 +28,27 @@
                     class: 'my-input-div',
                 },
                 children: [
-                    this.state.value,
-                    children
+                    {
+                        type: 'p',
+                        props: {
+                            class: 'left'
+                        },
+                        children: 'circle'
+                    },
+                    {
+                        type: 'span',
+                        props: {
+                            class: 'mid'
+                        },
+                        children: this.state.value
+                    },
+                    {
+                        type: 'div',
+                        props: {
+                            class: 'right'
+                        },
+                        children: children
+                    }
                 ]
             })
         }
@@ -49,7 +68,6 @@
                     class: 'my-input',
                     onChange: this.inputHandler.bind(this)
                 }
-
             })
         }
 

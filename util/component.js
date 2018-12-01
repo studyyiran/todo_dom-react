@@ -3,36 +3,42 @@
     }
     Component.prototype = {
         render: function (vnode, root) {
+            console.log('render')
             // root.innerHTML = ''
             let {type, props} = vnode
+
             let children = vnode.children || (props && props.children)
+            // 如果vnode是一个文本节点
             if (!children && typeof vnode === 'string') {
-                children = vnode
-            }
-            let dom = document.createElement(type)
-            if (props && Object.keys(props) && Object.keys(props).length) {
-                Object.keys(props).map(key => {
-                    if (key === 'onChange') {
-                        dom.onchange = function (event) {
-                            props[key](event)
+                // fix 这块会破坏root的结构。
+                let textNode = document.createTextNode(vnode)
+                root.appendChild(textNode)
+            } else {
+                let dom = document.createElement(type)
+                if (props && Object.keys(props) && Object.keys(props).length) {
+                    Object.keys(props).map(key => {
+                        if (key === 'onChange') {
+                            dom.onchange = function (event) {
+                                props[key](event)
+                            }
+                        } else if (key !== 'children') {
+                            dom.setAttribute(key, props[key])
                         }
-                    } else if (key !== 'children') {
-                        dom.setAttribute(key, props[key])
-                    }
-                })
-            }
-            root.appendChild(dom)
-            if (children) {
-                // 根据children类型渲染
-                if (typeof children === 'string') {
-                    root.textContent = children
-                } else if (children instanceof Array) {
-                    children.map(child => {
-                        // 这种可以理解成静态方法吧我想
-                        Component.prototype.render(child, dom)
                     })
-                } else if (children instanceof Object) {
-                    Component.prototype.render(children, dom)
+                }
+                root.appendChild(dom)
+                if (children) {
+                    // 根据children类型渲染
+                    if (children instanceof Array) {
+                        children.map(child => {
+                            // 这种可以理解成静态方法吧我想
+                            Component.prototype.render(child, dom)
+                        })
+                    } else if (children instanceof Object) {
+                        Component.prototype.render(children, dom)
+                    } else if (typeof(children) === 'string') {
+                        Component.prototype.render(children, dom)
+                    }
                 }
             }
             return root
