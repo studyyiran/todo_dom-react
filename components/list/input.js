@@ -15,7 +15,14 @@
         v-m 开的是 setState 修改m。然后出发reRender
          */
         this.state = {
-            value: 'content value'
+            value: 'content value',
+            edit: false
+        }
+
+        this.clickContentHandler = function (e) {
+            this.setState({
+                edit: true
+            })
         }
 
         /*
@@ -36,9 +43,11 @@
                         children: 'circle'
                     },
                     {
-                        type: 'span',
+                        type: 'div',
                         props: {
-                            class: 'mid'
+                            showDom: !this.state.edit,
+                            class: 'content',
+                            onclick: this.clickContentHandler.bind(this)
                         },
                         children: this.state.value
                     },
@@ -56,6 +65,7 @@
         this.inputHandler = function(event) {
             // TODO
             this.setState({
+                edit: false,
                 value: event.target.value
             })
         }
@@ -65,8 +75,10 @@
             return ({
                 type: 'input',
                 props: {
+                    showDom: this.state.edit,
                     class: 'my-input',
-                    onChange: this.inputHandler.bind(this)
+                    onchange: this.inputHandler.bind(this),
+                    value: this.state.value
                 }
             })
         }

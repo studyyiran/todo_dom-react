@@ -16,13 +16,27 @@
             } else {
                 let dom = document.createElement(type)
                 if (props && Object.keys(props) && Object.keys(props).length) {
+                    if (Object.keys(props).find((key) => {
+                        return key === 'showDom' && props[key] === false
+                    })) {
+                        return root
+                    }
                     Object.keys(props).map(key => {
-                        if (key === 'onChange') {
-                            dom.onchange = function (event) {
-                                props[key](event)
-                            }
-                        } else if (key !== 'children') {
-                            dom.setAttribute(key, props[key])
+                        switch (key) {
+                            case 'onchange':
+                                dom.onchange = function (event) {
+                                    props[key](event)
+                                }
+                                break
+                            case 'onclick':
+                                dom.onclick = function (event) {
+                                    props[key](event)
+                                }
+                                break
+                            default:
+                                if (key !== 'children') {
+                                    dom.setAttribute(key, props[key])
+                                }
                         }
                     })
                 }
