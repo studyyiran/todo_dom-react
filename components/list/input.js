@@ -84,16 +84,7 @@
                     class: 'list_input_container'
                 },
                 children: [
-                    this.renderItem({}),
-                    {
-                        type: 'div',
-                        props: {
-                            onclick: () => {
-
-                            }
-                        },
-                        childnre: '+'
-                    }
+                    this.renderItem({})
                 ]
             }
         }

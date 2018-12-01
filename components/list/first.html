@@ -6,6 +6,7 @@
     <script src="../../util/component.js"></script>
     <script src="../../util/util.js"></script>
     <script src="./input.js"></script>
+    <script src="./listContainer.js"></script>
     <style>
         .list_input_container_finishIcon {
             border-radius: 50%;
@@ -38,14 +39,14 @@
     <div id="root3"></div>
 </body>
 <script>
-    let Input1 = new window.Components.Input();
+    let listContainer = new window.Components.listContainer();
     function myFunc() {
         return {
             type: 'div',
             props: {class: 'fatherOfAll'},
             children: [
                 'success or fail? is not important.',
-                Input1.render(),
+                listContainer.render(),
             ]
         }
     }

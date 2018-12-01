@@ -3,7 +3,6 @@
     }
     Component.prototype = {
         render: function (vnode, root) {
-            console.log('render')
             // root.innerHTML = ''
             let {type, props} = vnode
 
