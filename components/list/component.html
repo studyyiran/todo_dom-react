@@ -19,7 +19,6 @@
      */
 
     function render(vnode, root) {
-        console.log(vnode)
         root.innerHTML = ''
         let {type, props} = vnode
         let children = vnode.children || props.children
@@ -71,7 +70,6 @@
     }
 
     function inputHandler(event) {
-        console.log(event)
         this.setState({
             value: event.target.value
         })

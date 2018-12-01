@@ -8,7 +8,7 @@
 
             let children = vnode.children || (props && props.children)
             // 如果vnode是一个文本节点
-            if (!children && typeof vnode === 'string') {
+            if (!children && (typeof vnode === 'string' || typeof vnode === 'number' )) {
                 // fix 这块会破坏root的结构。
                 let textNode = document.createTextNode(vnode)
                 root.appendChild(textNode)
@@ -49,7 +49,7 @@
                         })
                     } else if (children instanceof Object) {
                         Component.prototype.render(children, dom)
-                    } else if (typeof(children) === 'string') {
+                    } else {
                         Component.prototype.render(children, dom)
                     }
                 }

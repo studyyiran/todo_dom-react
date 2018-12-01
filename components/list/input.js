@@ -15,7 +15,6 @@
         v-m 开的是 setState 修改m。然后出发reRender
          */
         this.state = {
-            value: 'content value',
             edit: false
         }
 
@@ -49,7 +48,7 @@
                             class: 'list_input_container_content',
                             onclick: this.clickContentHandler.bind(this)
                         },
-                        children: this.state.value
+                        children: this.props.content
                     },
                     this.vnodeInput()
                 ]
@@ -60,8 +59,8 @@
             // TODO
             this.setState({
                 edit: false,
-                value: event.target.value
             })
+            this.props.updateContent(event.target.value)
         }
 
 
@@ -72,27 +71,20 @@
                     showDom: this.state.edit,
                     class: 'list_input_container_textarea',
                     onchange: this.inputHandler.bind(this),
-                    children: this.state.value
+                    children: this.props.content
                 }
             })
         }
 
         this.vnodeMix = function() {
-            return {
-                type: 'div',
-                props: {
-                    class: 'list_input_container'
-                },
-                children: [
-                    this.renderItem({})
-                ]
-            }
+            return this.renderItem({})
         }
 
         /*
         类的render方法，入口。
          */
-        this.render = function () {
+        this.render = function (props) {
+            this.props = props
             return this.vnodeMix()
         }
     }

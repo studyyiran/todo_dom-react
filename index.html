@@ -16,8 +16,6 @@
     function setValue(node, value) {
         node.textContent = '1' + value
         node.innerHTML = node.innerHTML + '2' + value
-        console.log(node.innerText)
-        // console.log(node.firstChild.nodeValue = '<div>123</div>')
     }
     function setAttr(node, key, value) {
         node.setAttribute(key, value)
@@ -25,9 +23,6 @@
     var div = document.querySelector('div')
     var ul = document.createElement('ul')
     ul.addEventListener('click', (e) => {
-        console.log(e.target)
-        console.log('get it')
-        console.log(e)
     })
     let arr = [0,1,2,3]
 
@@ -39,6 +34,5 @@
     })
     // TODO
     div.appendChild(ul)
-    console.log(div.nodeValue)
 </script>
 </html>

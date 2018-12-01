@@ -3,15 +3,13 @@
         cache: {
 
         },
-        get: function (func, name) {
+        get: function (func, props, name) {
             if (window.Components.cache[name]) {
-                console.log('cache')
-                return window.Components.cache[name].render()
+                return window.Components.cache[name].render(props)
             } else {
-                console.log('not cache')
                 let Component = new func()
                 window.Components.cache[name] = Component
-                return Component.render()
+                return Component.render(props)
             }
         }
     }

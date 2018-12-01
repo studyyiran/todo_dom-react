@@ -1,17 +1,14 @@
-let controller = {
-
-}
-
-controller.stack = []
-
-window.controller = controller
-
-controller.post = function () {
-
-}
-
-controller.add = function () {
-    return
-}
+(function() {
+    let model = window.gModel
+    let controller = {
+        addList: function (func) {
+            model.update('listData', func)
+        },
+        dispatch: function (key, func) {
+            model.update(key, func)
+        }
+    }
+    window.gController = controller
+})()
 
 
