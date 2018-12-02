@@ -1,12 +1,14 @@
 (function() {
-    window.originListObj = {
-        content: "content",
-        endTime: "",
-        finishDate: "",
-        itemId: (new Date()).getTime(),
-    }
     // 静态对象。
     let gModel = {
+        getNewListObj: function () {
+            return {
+                content: "content",
+                endTime: "",
+                finishDate: "",
+                itemId: (new Date()).getTime(),
+            }
+        },
         state: {
 
         },
@@ -43,13 +45,18 @@
             return this.getDB('test')
         },
         getDB: function (dbName) {
-            let db = window.localStorage.getItem(dbName) || this.initDB({'listData': [window.originListObj]})
-            db = JSON.parse(db)
+            let db = window.localStorage.getItem(dbName) || this.initDB({'listData': [gModel.getNewListObj()]})
+            if (db) {
+                console.log(db)
+                db = JSON.parse(db)
+            }
+
             return db
         },
         initDB: function (data) {
             window.localStorage.setItem('test', JSON.stringify(data))
-            return this.getDB('test')
+            console.log(data)
+            return JSON.stringify(data)
         },
         transData: function () {
             let saveKey = 'save'

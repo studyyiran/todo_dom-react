@@ -39,12 +39,12 @@
 
         this.renderList = function() {
             let arr = this.props.list.map((dataInfo, key) => {
-                return window.Components.get(window.Components.Input, {
+                return window.Components.prototype.get(window.Components.Input, {
                     update: this.updateInfo.bind(this, dataInfo.itemId),
                     getItemClick: this.getItemClick.bind(this, key),
                     editStatus: this.state.currentShowIndex === key,
                     dataInfo: dataInfo}, `input${key}`)
-                // return window.Components.get(window.Components.Input, `input${key}`)
+                // return window.Components.prototype.get(window.Components.Input, `input${key}`)
             })
             return {
                 type: 'div',
@@ -61,7 +61,7 @@
                 props: {
                     onclick: function () {
                         window.gController.dispatch('listData',function (oData) {
-                            oData.push(window.originListObj)
+                            oData.push(window.gModel.getNewListObj())
                             return oData
                         })
                     }
@@ -92,7 +92,7 @@
         }
     }
     window.Components.listContainer = listContainer
-    listContainer.prototype = window.Component.prototype
+    listContainer.prototype = window.Components.prototype
 
 })()
 

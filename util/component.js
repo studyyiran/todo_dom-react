@@ -1,7 +1,19 @@
 (function(){
-    window.Component = function () {
-    }
-    Component.prototype = {
+    let Components = function () {}
+    window.Components = Components
+    Components.prototype = {
+        cache: {
+
+        },
+        get: function (func, props, name) {
+            if (window.Components.prototype.cache[name]) {
+                return window.Components.prototype.cache[name].render(props)
+            } else {
+                let Component = new func()
+                window.Components.prototype.cache[name] = Component
+                return Component.render(props)
+            }
+        },
         render: function (vnode, root) {
             // root.innerHTML = ''
             let {type, props} = vnode
@@ -48,12 +60,12 @@
                     if (children instanceof Array) {
                         children.map(child => {
                             // 这种可以理解成静态方法吧我想
-                            Component.prototype.render(child, dom)
+                            Components.prototype.render(child, dom)
                         })
                     } else if (children instanceof Object) {
-                        Component.prototype.render(children, dom)
+                        Components.prototype.render(children, dom)
                     } else {
-                        Component.prototype.render(children, dom)
+                        Components.prototype.render(children, dom)
                     }
                 }
             }
@@ -69,12 +81,13 @@
             window.rootRender()
         },
         setRootRender: function(renderFunc, dom) {
+            console.log('start')
             // this.rootRender = function () {
                 // 此处为了每次重新获得vnode，需要使用render方法
             // }
             window.rootRender = function() {
                 dom.innerHTML = ''
-                Component.prototype.render(renderFunc(), dom)
+                Components.prototype.render(renderFunc(), dom)
             }
             window.rootRender()
         }

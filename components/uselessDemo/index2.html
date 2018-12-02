@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="container">
+        <div>1</div>
+        <div>1</div>
+        <div>1</div>
+        <div>1</div>
+    </div>
+</body>
+<script>
+    function setValue(node, value) {
+        node.textContent = '1' + value
+        node.innerHTML = node.innerHTML + '2' + value
+    }
+    function setAttr(node, key, value) {
+        node.setAttribute(key, value)
+    }
+    var div = document.querySelector('div')
+    var ul = document.createElement('ul')
+    ul.addEventListener('click', (e) => {
+    })
+    let arr = [0,1,2,3]
+
+    arr.forEach(item => {
+        let li = document.createElement('li')
+        setValue(li, item)
+        setAttr(li, 'data-index', item)
+        ul.appendChild(li)
+    })
+    // TODO
+    div.appendChild(ul)
+</script>
+</html>

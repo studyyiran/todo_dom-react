@@ -92,13 +92,13 @@
                 },
                 children: [
                     this.renderSideBar(),
-                    window.Components.get(window.Components.listContainer, {list: currentList}, `listContainer`)
+                    window.Components.prototype.get(window.Components.listContainer, {list: currentList}, `listContainer`)
                 ]
             }
         }
     }
     window.Components.mainPage = mainPage
-    mainPage.prototype = window.Component.prototype
+    mainPage.prototype = window.Components.prototype
 
 })()
 

@@ -2,10 +2,10 @@
     // let Input = function () {
     //
     // }
-    // Input.prototype = window.Component.prototype
+    // Input.prototype = window.Components.prototype
 
     // input 继承了。
-    // let Input = new (window.Component)()
+    // let Input = new (window.Components)()
 
     // 定义了构造函数首先
     let Input = function () {
@@ -135,7 +135,7 @@
     }
     window.Components.Input = Input
     // 完成继承
-    Input.prototype = window.Component.prototype
+    Input.prototype = window.Components.prototype
 
 })()
 
