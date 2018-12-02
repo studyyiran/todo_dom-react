@@ -34,7 +34,13 @@
                     {
                         type: 'div',
                         props: {
-                            class: 'list_input_container_finishIcon'
+                            class: 'list_input_container_finishIcon',
+                            onclick: () => {
+                                let time = new Date()
+                                let dataInfo = this.props.dataInfo
+                                dataInfo['finishDate'] = time
+                                this.props.update(dataInfo)
+                            }
                         },
                         children: ''
                     },
@@ -68,7 +74,7 @@
 
         this.inputHandler = function(key, event) {
             let dataInfo = this.props.dataInfo
-            dataInfo[key] = event.target.value
+            dataInfo[key] = event.target.value || event
             this.props.update(dataInfo)
         }
 

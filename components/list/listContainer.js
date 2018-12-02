@@ -4,21 +4,18 @@
         // window.gModel.addListener('listData', this.constructor.bind(this))
         let that = this
         // 这个如何不用箭头函数写
-        window.gModel.addListener('listData', (newData) => {
-            this.setState({
-                list: newData
-            })
-        })
 
         // 拉取数据仓库如何更加优雅一些
         this.state = {
-            list: window.gModel.getDataFromDB('listData'),
             currentShowIndex: undefined,
         }
 
-        this.updateInfo = function (key, newContent) {
+        this.updateInfo = function (itemId, newContent) {
             window.gController.dispatch('listData',function (oData) {
-                oData[key] = newContent
+                let resultIndex = oData.findIndex(item => item.itemId === itemId)
+                if (resultIndex !== -1) {
+                    oData[resultIndex] = newContent
+                }
                 return oData
             })
         }
@@ -41,9 +38,9 @@
 
 
         this.renderList = function() {
-            let arr = window.gModel.getDataFromDB('listData').map((dataInfo, key) => {
+            let arr = this.props.list.map((dataInfo, key) => {
                 return window.Components.get(window.Components.Input, {
-                    update: this.updateInfo.bind(this, key),
+                    update: this.updateInfo.bind(this, dataInfo.itemId),
                     getItemClick: this.getItemClick.bind(this, key),
                     editStatus: this.state.currentShowIndex === key,
                     dataInfo: dataInfo}, `input${key}`)
@@ -64,7 +61,7 @@
                 props: {
                     onclick: function () {
                         window.gController.dispatch('listData',function (oData) {
-                            oData.push('new')
+                            oData.push(window.originListObj)
                             return oData
                         })
                     }
@@ -73,10 +70,15 @@
             }
         }
 
+        this.init = function (props) {
+            this.props = props
+        }
+
         /*
         类的render方法，入口。
          */
-        this.render = function () {
+        this.render = function (props) {
+            this.init(props)
             return {
                 type: 'div',
                 props: {

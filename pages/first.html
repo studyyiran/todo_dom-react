@@ -7,10 +7,30 @@
     <script src="/util/util.js"></script>
     <script src="/components/list/input.js"></script>
     <script src="/components/list/listContainer.js"></script>
+    <script src="/components/mainPage/index.js"></script>
     <script src="/model/model.js"></script>
     <script src="/controller/controller.js"></script>
 
     <style>
+        .mainPage {
+            display: flex;
+        }
+        .mainPage_sideBar {
+            width: 200px;
+            background: gray;
+        }
+
+        .sideBar_item {
+            display: flex;
+            align-items: center;
+            padding: 5px;
+        }
+        .sideBar_item_icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+        }
+
         .list_input_container_finishIcon {
             border-radius: 50%;
             border: 1px solid gray;
@@ -48,14 +68,13 @@
     <div id="root3"></div>
 </body>
 <script>
-    let listContainer = new window.Components.listContainer();
     function myFunc() {
         return {
             type: 'div',
             props: {class: 'fatherOfAll'},
             children: [
                 'success or fail? is not important.',
-                listContainer.render(),
+                window.Components.get(window.Components.mainPage, {}, 'mainPage'),
             ]
         }
     }

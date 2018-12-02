@@ -1,4 +1,10 @@
 (function() {
+    window.originListObj = {
+        content: "content",
+        endTime: "",
+        finishDate: "",
+        itemId: (new Date()).getTime(),
+    }
     // 静态对象。
     let gModel = {
         state: {
@@ -37,7 +43,7 @@
             return this.getDB('test')
         },
         getDB: function (dbName) {
-            let db = window.localStorage.getItem(dbName) || this.initDB({'listData': [1,2,3]})
+            let db = window.localStorage.getItem(dbName) || this.initDB({'listData': [window.originListObj]})
             db = JSON.parse(db)
             return db
         },
@@ -51,16 +57,19 @@
             while(sessionStorage.getItem(`save${number}`)) {
                 number++
             }
+            let randomId = 10
             function transFunc(oldData) {
-                oldData.finishData = ''
+                oldData.itemId = randomId
+                randomId++
                 return oldData
             }
             // 备份
             sessionStorage.setItem(`save${number}`, localStorage.getItem('test'))
             let originData = JSON.parse(sessionStorage.getItem(`save${number}`))
             // 转换
-            // let newData = originData.listData.map(transFunc)
-            let newData = {listData: originData}
+            let newData = {
+                listData: originData.listData.map(transFunc)
+            }
             // 输出结果，并替换源数据
             localStorage.setItem(`test`, JSON.stringify(newData))
 
