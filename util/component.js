@@ -21,22 +21,25 @@
                         return root
                     }
                     Object.keys(props).map(key => {
-                        switch (key) {
-                            case 'onchange':
-                                dom.onchange = function (event) {
-                                    props[key](event)
-                                }
-                                break
-                            case 'onclick':
-                                dom.onclick = function (event) {
-                                    props[key](event)
-                                }
-                                break
-                            default:
-                                if (key !== 'children') {
-                                    dom.setAttribute(key, props[key])
-                                }
+                        if (key.indexOf('on') === 0) {
+                            dom[key] = function (event) {
+                                props[key](event)
+                            }
+                        } else if (key !== 'children') {
+                            dom.setAttribute(key, props[key])
                         }
+                        // switch (key) {
+                        //     case 'onchange':
+                        //
+                        //         break
+                        //     case 'onclick':
+                        //         dom.onclick = function (event) {
+                        //             props[key](event)
+                        //         }
+                        //         break
+                        //     default:
+                        //
+                        // }
                     })
                 }
                 root.appendChild(dom)

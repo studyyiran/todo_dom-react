@@ -15,19 +15,16 @@
         v-m 开的是 setState 修改m。然后出发reRender
          */
         this.state = {
-            edit: false
         }
 
         this.clickContentHandler = function (e) {
-            this.setState({
-                edit: true
-            })
+            this.props.getItemClick()
         }
 
         /*
         pure view.get state to render with state
          */
-        this.renderItem = function({children = ''}) {
+        this.renderContentStatus = function() {
             return ({
                 type: 'div',
                 props: {
@@ -44,23 +41,58 @@
                     {
                         type: 'div',
                         props: {
-                            showDom: !this.state.edit,
                             class: 'list_input_container_content',
                             onclick: this.clickContentHandler.bind(this)
                         },
-                        children: this.props.content
+                        children: this.props.dataInfo.content
                     },
-                    this.vnodeInput()
+                    {
+                        type: 'div',
+                        props: {
+                            class: 'list_input_container_endTime',
+                            onclick: this.clickContentHandler.bind(this)
+                        },
+                        children: this.props.dataInfo.endTime
+                    }
                 ]
             })
         }
 
-        this.inputHandler = function(event) {
-            // TODO
-            this.setState({
-                edit: false,
-            })
-            this.props.updateContent(event.target.value)
+        this.renderItem = function() {
+            if (this.props.editStatus) {
+                return this.renderEditStatus()
+            } else {
+                return this.renderContentStatus()
+            }
+        }
+
+        this.inputHandler = function(key, event) {
+            let dataInfo = this.props.dataInfo
+            dataInfo[key] = event.target.value
+            this.props.update(dataInfo)
+        }
+
+        this.renderEditStatus = function () {
+            return {
+                type: 'div',
+                props: {
+                    class: 'list_input_edit'
+                },
+                children: [
+                    this.vnodeInput(),
+                    this.dateChange()
+                ]
+            }
+        }
+
+        this.dateChange = function () {
+            return {
+                type: 'input',
+                props: {
+                    value: this.props.dataInfo.endTime,
+                    onblur: this.inputHandler.bind(this, 'endTime')
+                }
+            }
         }
 
 
@@ -68,10 +100,9 @@
             return ({
                 type: 'textarea',
                 props: {
-                    showDom: this.state.edit,
-                    class: 'list_input_container_textarea',
-                    onchange: this.inputHandler.bind(this),
-                    children: this.props.content
+                    class: 'list_input_edit_textarea',
+                    onblur: this.inputHandler.bind(this, 'content'),
+                    children: this.props.dataInfo.content
                 }
             })
         }
@@ -80,11 +111,19 @@
             return this.renderItem({})
         }
 
+        this.componentDidUpdate = function (props) {
+            this.props = props
+            if (this.oldProps && this.oldProps.editStatus === true && this.props.editStatus === false) {
+                // 更新状态
+            }
+            this.oldProps = this.props
+        }
+
         /*
         类的render方法，入口。
          */
         this.render = function (props) {
-            this.props = props
+            this.componentDidUpdate(props)
             return this.vnodeMix()
         }
     }

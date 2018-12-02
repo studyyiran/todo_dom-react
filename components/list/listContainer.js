@@ -13,25 +13,46 @@
         // 拉取数据仓库如何更加优雅一些
         this.state = {
             list: window.gModel.getDataFromDB('listData'),
+            currentShowIndex: undefined,
         }
 
-        this.updateContent = function (key, newContent) {
+        this.updateInfo = function (key, newContent) {
             window.gController.dispatch('listData',function (oData) {
                 oData[key] = newContent
                 return oData
             })
         }
 
+        this.getItemClick = function (key) {
+            this.setState({
+                currentShowIndex: key
+            })
+            return
+            if (this.state.currentShowIndex === key) {
+                this.setState({
+                    currentShowIndex: undefined
+                })
+            } else {
+                this.setState({
+                    currentShowIndex: key
+                })
+            }
+        }
+
 
         this.renderList = function() {
-            let arr = this.state.list.map((content, key) => {
-                return window.Components.get(window.Components.Input, {updateContent: this.updateContent.bind(this, key),content: content}, `input${key}`)
+            let arr = window.gModel.getDataFromDB('listData').map((dataInfo, key) => {
+                return window.Components.get(window.Components.Input, {
+                    update: this.updateInfo.bind(this, key),
+                    getItemClick: this.getItemClick.bind(this, key),
+                    editStatus: this.state.currentShowIndex === key,
+                    dataInfo: dataInfo}, `input${key}`)
                 // return window.Components.get(window.Components.Input, `input${key}`)
             })
             return {
                 type: 'div',
                 props: {
-                    class: 'list!'
+                    class: 'list_container'
                 },
                 children: arr
             }
