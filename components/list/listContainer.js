@@ -66,6 +66,8 @@
                     },
                     children: '添加+'
                 }
+            } else {
+                return null
             }
         }
 

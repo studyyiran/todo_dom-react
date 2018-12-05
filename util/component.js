@@ -17,6 +17,9 @@
         },
         render: function (vnode, root) {
             // root.innerHTML = ''
+            if (!vnode) {
+                return root
+            }
             let {type, props} = vnode
 
             let children = vnode.children || (props && props.children)

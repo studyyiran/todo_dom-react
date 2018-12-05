@@ -107,7 +107,7 @@
             let buttonSure = {
                 type: 'div',
                 props: {
-                    class: 'button',
+                    class: 'button sure',
                     'data-button': 'ok'
                 },
                 children: '保存'
@@ -115,7 +115,7 @@
             let buttonCancel = {
                 type: 'div',
                 props: {
-                    class: '',
+                    class: 'button',
                     'data-button': 'cancel'
 
                 },
