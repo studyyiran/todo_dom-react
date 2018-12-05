@@ -24,7 +24,7 @@ MVC
 view层
 负责渲染model层的数据。目前封装了一层简陋的mvvm  
 data --(render)--> view  
-从model层获得的数据，被函数组件转换成html包括了state的vnode。  
+从model层获得的数据，被函数组件转换，成为包括了state状态的class，通过render方法获得class生成的vnode。  
 node交给全局的渲染函数进行渲染。  
 
 view --(setState) --> data   
@@ -35,10 +35,10 @@ setState首先更新组件实例的state
 组件使用state维护组件数据。通过props进行子父组件通信。   
 
 model层  
-负责数据维护。并提供监听给view层。  
+负责数据维护。并提供监听给view层。  view层监听变化。
 
 controller  
-负责将view层的数据操作dispatch到model层  
+负责将view层的数据操作dispatch到model层。  
 
 4）缺陷和改进。  
 0.补充好代码注释，删除无用的代码。  
