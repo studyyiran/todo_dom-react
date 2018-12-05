@@ -47,7 +47,6 @@
         getDB: function (dbName) {
             let db = window.localStorage.getItem(dbName) || this.initDB({'listData': [gModel.getNewListObj()]})
             if (db) {
-                console.log(db)
                 db = JSON.parse(db)
             }
 
@@ -55,7 +54,6 @@
         },
         initDB: function (data) {
             window.localStorage.setItem('test', JSON.stringify(data))
-            console.log(data)
             return JSON.stringify(data)
         },
         transData: function () {

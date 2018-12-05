@@ -66,27 +66,72 @@
 
         this.renderItem = function() {
             if (this.props.editStatus) {
-                return this.renderEditStatus()
+                return {
+                    type: 'div',
+                    children: [
+                        this.renderEditStatus(),
+                        this.buttons()
+                    ]
+                }
             } else {
                 return this.renderContentStatus()
             }
         }
 
         this.inputHandler = function(key, event) {
-            let dataInfo = this.props.dataInfo
-            dataInfo[key] = event.target.value || event
-            this.props.update(dataInfo)
+            this.inputCache = this.inputCache || JSON.parse(JSON.stringify(this.props.dataInfo))
+            this.inputCache[key] = event.target.value || event
         }
 
         this.renderEditStatus = function () {
             return {
                 type: 'div',
                 props: {
-                    class: 'list_input_edit'
+                    class: 'list_input_edit',
+                    onchange: (event) => {this.inputHandler(event.target.dataset.name, event)},
                 },
                 children: [
                     this.vnodeInput(),
-                    this.dateChange()
+                    this.dateChange(),
+                ]
+            }
+        }
+
+        this.buttons = function () {
+            let buttonSure = {
+                type: 'div',
+                props: {
+                    class: 'button',
+                    'data-button': 'ok'
+                },
+                children: '保存'
+            }
+            let buttonCancel = {
+                type: 'div',
+                props: {
+                    class: '',
+                    'data-button': 'cancel'
+
+                },
+                children: '取消'
+            }
+            return {
+                type: 'div',
+                props: {
+                    onclick: (event) => {
+                        let type = event.target.dataset.button
+                        let inputValue = this.inputCache
+                        // 确认按钮
+                        if (inputValue && type === "ok") {
+                            this.props.update(inputValue)
+                        }
+                        this.inputCache = null
+                        this.props.getItemClick()
+                    }
+                },
+                children: [
+                    buttonSure,
+                    buttonCancel
                 ]
             }
         }
@@ -96,7 +141,7 @@
                 type: 'input',
                 props: {
                     value: this.props.dataInfo.endTime,
-                    onblur: this.inputHandler.bind(this, 'endTime')
+                    'data-name': 'endTime',
                 }
             }
         }
@@ -107,7 +152,7 @@
                 type: 'textarea',
                 props: {
                     class: 'list_input_edit_textarea',
-                    onblur: this.inputHandler.bind(this, 'content'),
+                    'data-name': 'content',
                     children: this.props.dataInfo.content
                 }
             })
@@ -120,7 +165,14 @@
         this.componentDidUpdate = function (props) {
             this.props = props
             if (this.oldProps && this.oldProps.editStatus === true && this.props.editStatus === false) {
-                // 更新状态
+                if (this.inputCache) {
+                    // 更新状态
+                    console.log('didUPdate')
+                    let value = this.inputCache
+                    this.inputCache = null
+                    this.props.update(value)
+
+                }
             }
             this.oldProps = this.props
         }

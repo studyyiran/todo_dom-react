@@ -15,6 +15,9 @@
             }
         },
         render: function (vnode, root) {
+            if (vnode && vnode.props && vnode.props.class == 'fatherOfAll') {
+                console.log('get it')
+            }
             // root.innerHTML = ''
             let {type, props} = vnode
 
@@ -81,13 +84,14 @@
             window.rootRender()
         },
         setRootRender: function(renderFunc, dom) {
-            console.log('start')
             // this.rootRender = function () {
                 // 此处为了每次重新获得vnode，需要使用render方法
             // }
             window.rootRender = function() {
+                console.log('start render')
                 dom.innerHTML = ''
                 Components.prototype.render(renderFunc(), dom)
+                console.log('finish render')
             }
             window.rootRender()
         }

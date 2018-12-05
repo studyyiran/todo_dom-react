@@ -21,10 +21,6 @@
         }
 
         this.getItemClick = function (key) {
-            this.setState({
-                currentShowIndex: key
-            })
-            return
             if (this.state.currentShowIndex === key) {
                 this.setState({
                     currentShowIndex: undefined
