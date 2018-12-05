@@ -1,11 +1,8 @@
+/*
+列表容器。用于包括一堆input item
+ */
 (function() {
     let listContainer = function () {
-        // TODO 这个如何定义的更好一些？
-        // window.gModel.addListener('listData', this.constructor.bind(this))
-        let that = this
-        // 这个如何不用箭头函数写
-
-        // 拉取数据仓库如何更加优雅一些
         this.state = {
             currentShowIndex: undefined,
         }

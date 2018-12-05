@@ -1,3 +1,6 @@
+/*
+这是比较关键的js。用于为组件提供继承。
+ */
 (function(){
     let Components = function () {}
     window.Components = Components

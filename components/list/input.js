@@ -1,22 +1,8 @@
+/*
+input组件。用于接受用户反馈。没有state的展示组件，但是有afterRender钩子。
+ */
 (function() {
-    // let Input = function () {
-    //
-    // }
-    // Input.prototype = window.Components.prototype
-
-    // input 继承了。
-    // let Input = new (window.Components)()
-
-    // 定义了构造函数首先
     let Input = function () {
-        /*
-        mvvm
-        m-v 靠的是 render函数将state（m）转成 vnode（v，在template的帮助下）
-        v-m 开的是 setState 修改m。然后出发reRender
-         */
-        this.state = {
-        }
-
         this.clickContentHandler = function (e) {
             if (this.props.type !== 'receive') {
                 return
@@ -24,9 +10,6 @@
             this.props.getItemClick()
         }
 
-        /*
-        pure view.get state to render with state
-         */
         this.renderContentStatus = function() {
             return ({
                 type: 'div',

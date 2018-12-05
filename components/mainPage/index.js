@@ -1,3 +1,6 @@
+/*
+首页的js描述
+ */
 (function() {
     let mainPage = function () {
         window.gModel.addListener('listData', (newData) => {
@@ -6,7 +9,6 @@
             })
         })
 
-        // 拉取数据仓库如何更加优雅一些
         this.state = {
             list: window.gModel.getDataFromDB('listData'),
             currentTitleIndex: 0
