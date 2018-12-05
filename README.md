@@ -6,7 +6,7 @@ https://studyyiran.github.io/
 原型地址  
 https://todoist.com  
 
-0）概述
+0）概述  
 一个很简单的，原生js实现的todo demo。使用vnode描述DOM节点进行渲染
 
 1）todo基本功能  
