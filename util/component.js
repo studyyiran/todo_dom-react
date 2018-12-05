@@ -5,6 +5,7 @@
         cache: {
 
         },
+        status: undefined,
         get: function (func, props, name) {
             if (window.Components.prototype.cache[name]) {
                 return window.Components.prototype.cache[name].render(props)
@@ -15,9 +16,6 @@
             }
         },
         render: function (vnode, root) {
-            if (vnode && vnode.props && vnode.props.class == 'fatherOfAll') {
-                console.log('get it')
-            }
             // root.innerHTML = ''
             let {type, props} = vnode
 
@@ -43,18 +41,6 @@
                         } else if (key !== 'children') {
                             dom.setAttribute(key, props[key])
                         }
-                        // switch (key) {
-                        //     case 'onchange':
-                        //
-                        //         break
-                        //     case 'onclick':
-                        //         dom.onclick = function (event) {
-                        //             props[key](event)
-                        //         }
-                        //         break
-                        //     default:
-                        //
-                        // }
                     })
                 }
                 root.appendChild(dom)
@@ -78,9 +64,9 @@
             let newState = Object.assign({}, this.state, nextState)
             // 更新了自身的state之后。就仅仅需要父组件触发子组件的render方法了。
             this.state = newState
-            // 这块不对劲。应该触发的是本身的render方法。（这块对，其实是通过父组件触发的。）
             // let vnodeNow = this.render()
-            // 然后。。。再。。。更新？或者说，再出发起源导火索？进行一次新的vnode渲染。
+            // 现在每次都会通过重新渲染根节点，并且配合缓存了的Component保留state，来完成reRender
+            // 以后需要优化成仅仅渲染变化的节点。
             window.rootRender()
         },
         setRootRender: function(renderFunc, dom) {
@@ -88,12 +74,33 @@
                 // 此处为了每次重新获得vnode，需要使用render方法
             // }
             window.rootRender = function() {
-                console.log('start render')
+                // window.Components.status = 'beforeRender'
                 dom.innerHTML = ''
                 Components.prototype.render(renderFunc(), dom)
-                console.log('finish render')
+                // window.Components.status = 'afterRender'
+                // 执行钩子
+                window.Components.prototype.runTrigger('afterRender')
             }
             window.rootRender()
+        },
+        promiseObj: {},
+        addPromise: function (key) {
+            if (!this.promiseObj[key]) {
+                let promiseTrigger
+                this.promiseObj[key] = {
+                    promise: new Promise((resolve, reject) => {
+                        promiseTrigger = resolve
+                    }),
+                    trigger: promiseTrigger
+                }
+            }
+            return this.promiseObj[key].promise
+        },
+        runTrigger: function (key) {
+            if (this.promiseObj[key] && this.promiseObj[key].trigger) {
+                this.promiseObj[key].trigger()
+                this.promiseObj[key] = undefined
+            }
         }
     }
 })()

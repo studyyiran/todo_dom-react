@@ -162,26 +162,29 @@
             return this.renderItem({})
         }
 
-        this.componentDidUpdate = function (props) {
-            this.props = props
-            if (this.oldProps && this.oldProps.editStatus === true && this.props.editStatus === false) {
-                if (this.inputCache) {
-                    // 更新状态
-                    console.log('didUPdate')
-                    let value = this.inputCache
-                    this.inputCache = null
-                    this.props.update(value)
+        this.componentAfterRender = function (props) {
+            let p = window.Components.prototype.addPromise('afterRender')
+            p.then(() => {
+                if (this.oldProps && this.oldProps.editStatus === true && this.props.editStatus === false) {
+                    if (this.inputCache) {
+                        // 更新状态
+                        console.log('didUPdate')
+                        let value = this.inputCache
+                        this.inputCache = null
+                        this.props.update(value)
 
+                    }
                 }
-            }
-            this.oldProps = this.props
+                this.oldProps = this.props
+            })
         }
 
         /*
         类的render方法，入口。
          */
         this.render = function (props) {
-            this.componentDidUpdate(props)
+            this.props = props
+            this.componentAfterRender(props)
             return this.vnodeMix()
         }
     }
