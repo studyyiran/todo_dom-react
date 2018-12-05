@@ -67,6 +67,7 @@
                 {
                     title: '收件箱',
                     iconUrl: '/res/icon/icon_all.png',
+                    type: 'receive',
                     filterFunc: (item) => {
                         return !item.finishDate
                     }
@@ -74,6 +75,7 @@
                 {
                     title: '已完成',
                     iconUrl: '/res/icon/icon_finish.png',
+                    type: 'finish',
                     filterFunc: (item) => {
                         return item.finishDate
                     }
@@ -85,6 +87,7 @@
             this.init()
             let {list, currentTitleIndex} = this.state
             let currentList = list.filter(this.titles[currentTitleIndex].filterFunc)
+            let type = this.titles[currentTitleIndex].type
             return {
                 type: 'div',
                 props: {
@@ -92,7 +95,7 @@
                 },
                 children: [
                     this.renderSideBar(),
-                    window.Components.prototype.get(window.Components.listContainer, {list: currentList}, `listContainer`)
+                    window.Components.prototype.get(window.Components.listContainer, {list: currentList, type: type}, `listContainer`)
                 ]
             }
         }

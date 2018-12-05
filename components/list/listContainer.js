@@ -36,6 +36,7 @@
         this.renderList = function() {
             let arr = this.props.list.map((dataInfo, key) => {
                 return window.Components.prototype.get(window.Components.Input, {
+                    type: this.props.type,
                     update: this.updateInfo.bind(this, dataInfo.itemId),
                     getItemClick: this.getItemClick.bind(this, key),
                     editStatus: this.state.currentShowIndex === key,
@@ -52,17 +53,19 @@
         }
 
         this.addButton = function () {
-            return {
-                type: 'div',
-                props: {
-                    onclick: function () {
-                        window.gController.dispatch('listData',function (oData) {
-                            oData.push(window.gModel.getNewListObj())
-                            return oData
-                        })
-                    }
-                },
-                children: '添加+'
+            if (this.props.type === 'receive') {
+                return {
+                    type: 'div',
+                    props: {
+                        onclick: function () {
+                            window.gController.dispatch('listData',function (oData) {
+                                oData.push(window.gModel.getNewListObj())
+                                return oData
+                            })
+                        }
+                    },
+                    children: '添加+'
+                }
             }
         }
 

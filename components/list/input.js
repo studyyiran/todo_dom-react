@@ -18,6 +18,9 @@
         }
 
         this.clickContentHandler = function (e) {
+            if (this.props.type !== 'receive') {
+                return
+            }
             this.props.getItemClick()
         }
 
@@ -36,6 +39,9 @@
                         props: {
                             class: 'list_input_container_finishIcon',
                             onclick: () => {
+                                if (this.props.type !== 'receive') {
+                                    return
+                                }
                                 let time = new Date()
                                 let dataInfo = this.props.dataInfo
                                 dataInfo['finishDate'] = time

@@ -85,7 +85,13 @@
             type: 'div',
             props: {class: 'fatherOfAll'},
             children: [
-                'success or fail? is not important.',
+                {
+                    type: 'h1',
+                    props: {
+
+                    },
+                    children: 'mini-TODO with origin js by mvc & mvvc'
+                },
                 window.Components.prototype.get(window.Components.mainPage, {}, 'mainPage'),
             ]
         }
